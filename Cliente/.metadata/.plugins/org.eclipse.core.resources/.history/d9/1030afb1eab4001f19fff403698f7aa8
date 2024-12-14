@@ -1,0 +1,5 @@
+package com.cliente.Cliente.repository;
+
+public interface IClienteRepository {
+
+}

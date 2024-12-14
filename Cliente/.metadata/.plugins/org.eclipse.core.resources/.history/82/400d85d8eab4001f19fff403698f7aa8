@@ -1,0 +1,5 @@
+package com.cliente.Cliente.service;
+
+public class ClienteService {
+
+}

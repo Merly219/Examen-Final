@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: examenfinal
+    ports:
+      - "3306:3306"
+    networks:
+      - microservices-network
+
+  cliente-service:
+    build:
+      context: ./cliente-service
+      dockerfile: Dockerfile
+    container_name: cliente-service
+    ports:
+      - "9007:9007"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/examenfinal?useSSL=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=mysql
+    networks:
+      - microservices-network
+
+  producto-service:
+    build:
+      context: ./producto-service
+      dockerfile: Dockerfile
+    container_name: producto-service
+    ports:
+      - "9090:9090"
+    networks:
+      - microservices-network
+
+  bff-service:
+    build:
+      context: ./bff-service
+      dockerfile: Dockerfile
+    container_name: bff-service
+    ports:
+      - "9080:9080"
+    depends_on:
+      - cliente-service
+      - producto-service
+    environment:
+      - CLIENTES_SERVICE_URL=http://cliente-service:9007/api/clientes
+      - PRODUCTOS_SERVICE_URL=http://producto-service:9090/api/productos
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    driver: bridge

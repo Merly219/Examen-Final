@@ -1,0 +1,5 @@
+package com.cliente.Cliente.model;
+
+public class Cliente {
+
+}

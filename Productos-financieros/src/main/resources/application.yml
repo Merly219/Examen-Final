@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: Productos-financieros
+  profiles:
+    active: default
+  datasource:
+    url: jdbc:mysql://localhost:3306/examenfinal?useSSL=false&serverTimeZone=UTC
+    username: root
+    password: mysql
+  jpa:
+    properties:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+      hibernate.format_sql: true
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+server:
+  port: 9090
+
+
+
+
+
